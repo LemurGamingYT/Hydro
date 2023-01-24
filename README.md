@@ -1,2 +1,2 @@
 # Hydro
- A compiled programming language similar to Python in syntax.
+ An interpreted programming language similar to Python & Carbon in syntax.
