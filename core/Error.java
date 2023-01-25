@@ -19,6 +19,9 @@ public class Error {
                                 int line, int col, String msg, RecognitionException e) {
             System.out.println("SyntaxError: unexpected '" + ((Token) offendingSymbol).getText() +
                     "' at line " + line + ", column " + col);
+
+            System.out.println("\nProcess finished with exit code 1");
+            System.exit(1);
         }
     }
 }

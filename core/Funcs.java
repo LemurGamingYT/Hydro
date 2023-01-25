@@ -1,7 +1,6 @@
 package core;
 
-import core.reprs.boolRepr;
-import core.reprs.nullRepr;
+import core.reprs.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,7 +40,7 @@ public class Funcs<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T _Println(List<?> args) {
+    public T _Println(List<?> args, Env env, Visitor<Object> visitor) {
         var value = args.get(0);
 
         System.out.println(getFieldValue(value, "value"));
@@ -50,7 +49,16 @@ public class Funcs<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T _min(List<?> args) {
+    public T _Print(List<?> args, Env env, Visitor<Object> visitor) {
+        var value = args.get(0);
+
+        System.out.print(getFieldValue(value, "value"));
+
+        return (T) new nullRepr();
+    }
+
+    @SuppressWarnings("unchecked")
+    public T _min(List<?> args, Env env, Visitor<Object> visitor) {
         var value = args.get(0);
         var value2 = args.get(1);
 
@@ -66,7 +74,7 @@ public class Funcs<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T _max(List<?> args) {
+    public T _max(List<?> args, Env env, Visitor<Object> visitor) {
         var value = args.get(0);
         var value2 = args.get(1);
 
@@ -79,5 +87,49 @@ public class Funcs<T> {
         } else {
             return (T) value2;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public T _forEach(List<?> args, Env env, Visitor<Object> visitor) {
+        var value = args.get(0);
+        var func = (funcRepr) args.get(1);
+
+        var firstArg = func.params.get(0);
+
+        if (value instanceof stringRepr r) {
+            env.AddVariable(new varRepr(firstArg.toString(),
+                    new stringRepr("\"" + r.value.charAt(0) + "\""), false));
+
+            for (int i = 0; i < r.value.length(); i++) {
+                env.SetVariable(new varRepr(firstArg.toString(),
+                        new stringRepr("\"" + r.value.charAt(i) + "\""), false));
+
+                visitor.visitBlock(func.block);
+            }
+        } else {
+            new Error("Type", "Unable to forEach loop through a non-iterable");
+        }
+
+        return (T) new nullRepr();
+    }
+
+    @SuppressWarnings("unchecked")
+    public T _loopNum(List<?> args, Env env, Visitor<Object> visitor) {
+        var mapFunc = (funcRepr) args.get(0);
+        var num = args.get(1);
+
+        var firstArg = mapFunc.params.get(0);
+
+        int i = 0;
+        env.AddVariable(new varRepr(firstArg.toString(), new intRepr("0"), false));
+        while (i < ((intRepr) num).value) {
+            visitor.visitBlock(mapFunc.block);
+
+            i += 1;
+
+            env.SetVariable(new varRepr(firstArg.toString(), new intRepr(Integer.toString(i)), false));
+        }
+
+        return (T) new nullRepr();
     }
 }

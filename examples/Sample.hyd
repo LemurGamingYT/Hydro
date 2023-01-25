@@ -1,0 +1,104 @@
+// Comments use '//'
+<-- or comments can be defined with '<--'
+
+// Import IO (Input Output) Lib
+import "IO" <-- You can also do 'import "Println" from "IO"' to use it directly
+
+IO.Println("Hello World!") <-- If you imported it directly then you can just do 'Println'
+
+// Define variables like Python, dynamically
+variable = "Hello World"
+IO.Println(variable); <-- Optional semi-colons
+
+// Use some control flow
+if (variable == "Hello World") { <-- Optional brackets
+    IO.Println("I need to say something different..")
+} else {
+    IO.Println("Oh ok!")
+}
+
+// Use a while loop
+int i = 0 <-- You could also give an explicit type for variables but they are ignored by the interpreter
+while i < 10 {
+    IO.Println(i)
+    i += 1 <-- or i = i + 1
+}
+
+// Another library called 'operators'
+import "operators"
+
+// Use some operators
+IO.Println(i + 1)
+IO.Println(800 * 10)
+
+// Use the library 'operators'
+operators.op("add", 50, 10) <-- or 50 + 10
+operators.op("sub", 50, 40) <-- or 50 - 40
+operators.op("eq", 50, 50) <-- or 50 == 50
+
+RemoveModule(operators) <-- Delete this from the environment
+RemoveModule(IO)
+
+// Use direct Println
+import "Println" from "IO"
+
+// Create a function
+func Main() {
+    Println("HI")
+    Println("HI THIS IS MY MAIN FUNCTION!")
+}
+
+// Call the custom function
+Main()
+
+// Use a String cls attribute: 'Lower'
+string content = "ThIs WiLl bE loWeRed SooN"
+Println(content.Lower())
+
+// Get the first and last character in one string
+string content1_2 = content.start + content.end
+
+// Create a class
+class Person {
+    // Initializer
+    func ~Init() {
+        Println("Initializer")
+    }
+
+    func say_hi() {
+        Println("Hey!")
+    }
+
+    func ~Person() <-- Ran when the class goes out of scope/destroyed
+}
+
+person = new Person()
+person.say_hi()
+
+RemoveClass(Person)
+
+// The language also supports structs
+
+struct User {
+    string name <-- types are required for structs
+    array[string] accesses
+}
+
+// The language also has a library called 'advancedCls' basically the 'dataclass' function from 'dataclasses' in Python
+import "advancedCls" from "advancedCls"
+
+class Job {
+    func ~Init(string name, array[string] requirements) {
+        this.name = name
+        this.requirements = requirements
+    }
+}
+
+class Worker(advancedCls(Init: true, Repr: true)) <- Person {
+    string name
+    string jobName
+    Job job
+}
+
+Worker worker = new Worker("Jeff", "Baker", new Job("Baker", ["Cooking", "Teamwork"]))
+Println(worker) <-- Worker(name='Jeff', 'Baker', @Job@)

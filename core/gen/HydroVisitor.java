@@ -118,17 +118,17 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitConditional_block(HydroParser.Conditional_blockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link HydroParser#stmt_block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStmt_block(HydroParser.Stmt_blockContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link HydroParser#args}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArgs(HydroParser.ArgsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link HydroParser#params}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParams(HydroParser.ParamsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link HydroParser#type_conversion}.
 	 * @param ctx the parse tree

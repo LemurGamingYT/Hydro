@@ -77,7 +77,7 @@ TYPE : ('int' | 'float' | 'string' | 'bool' | 'null');
 
 program : stmt* EOF;
 
-block: stmt*;
+block: LBRACE stmt* RBRACE;
 
 stmt
     : conditional_stmt SEMI?
@@ -88,11 +88,11 @@ stmt
     | import_stmt SEMI?
     ;
 
-import_stmt: IMPORT LBRACE STRING (COMMA STRING)*? RBRACE (FROM STRING)?;
+import_stmt: IMPORT LBRACE STRING (COMMA STRING)* RBRACE (FROM STRING)?;
 
 assignments: varassignment | funcassignment;
-funcassignment: (FUNC | ID) OVERRIDE? ID LPAREN (ID? ID (COMMA ID? ID)?)? RPAREN stmt_block; // | ID ASSIGN LPAREN (ID (COMMA ID))? RPAREN ARROWASSIGN stmt_block;
-varassignment: TYPE? ID QUESTION? ASSIGN expr;
+funcassignment: FUNC ID LPAREN params? RPAREN block; // | ID ASSIGN LPAREN (ID (COMMA ID))? RPAREN ARROWASSIGN stmt_block;
+varassignment: TYPE? ID ASSIGN expr;
 
 clsassign: NEW ID LPAREN args? RPAREN;
 classdef
@@ -108,7 +108,7 @@ define_blocks
 getattribs: (STRING | ID) DOT ID (LPAREN args? RPAREN)?;
 attrassign: ID DOT ID ASSIGN expr;
 
-call: THREAD? ID LPAREN args? RPAREN;
+call: ID LPAREN args? RPAREN;
 
 conditional_stmt
     : if_stmt
@@ -116,21 +116,17 @@ conditional_stmt
     | for_stmt
     ;
 
-if_stmt: IF conditional_block stmt_block (ELSE IF conditional_block stmt_block)* (ELSE stmt_block)?;
-while_stmt: WHILE conditional_block stmt_block;
-for_stmt
-    : FOR ID SEMI conditional_block SEMI ID (INCREMENT | DECREMENT) stmt_block
-    | FOR ID expr stmt_block
-    ;
+if_stmt: IF conditional_block block (ELSE IF conditional_block block)* (ELSE block)?;
+while_stmt: WHILE conditional_block block;
+for_stmt: FOR ID SEMI conditional_block SEMI ID (INCREMENT | DECREMENT) block;
 
 conditional_block
     : LPAREN expr RPAREN
     | expr
     ;
 
-stmt_block: LBRACE block RBRACE;
-
-args: expr (COMMA expr)?;
+args: expr (COMMA expr)*;
+params: ID (COMMA ID)*;
 
 type_conversion: LPAREN ID RPAREN ANY;
 

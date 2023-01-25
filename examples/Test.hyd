@@ -1,1 +1,7 @@
+String = "Hello World"
 
+func Str(element) {
+    Println(element)
+}
+
+forEach(String, Str)

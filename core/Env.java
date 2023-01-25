@@ -11,26 +11,26 @@ public class Env {
     public HashMap<String, funcRepr> functions = new HashMap<>();
 
     public void AddVariable(varRepr repr) {
-        this.variables.put(repr.name, repr);
+        variables.put(repr.name, repr);
     }
 
     public varRepr GetVariable(String name) {
-        return this.variables.get(name);
+        return variables.get(name);
     }
 
     public void SetVariable(varRepr repr) {
-        this.variables.put(repr.name, repr);
+        variables.put(repr.name, repr);
     }
 
     public void RemoveVariable(String name) {
-        this.variables.remove(name);
+        variables.remove(name);
     }
 
     public void AddFunc(funcRepr repr) {
-        this.functions.put(repr.name, repr);
+        functions.put(repr.name, repr);
     }
 
     public funcRepr GetFunc(String name) {
-        return this.functions.get(name);
+        return functions.get(name);
     }
 }

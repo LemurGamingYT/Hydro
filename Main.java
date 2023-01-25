@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -31,6 +32,10 @@ public class Main {
         var elapsed = end_time.toEpochMilli() - start_time.toEpochMilli();
         /**/System.out.println("Total time to execute -> " + elapsed + "ms");
 
-        System.out.println("\nProcess finished with exit code 0");
+        System.out.println("\nProcess finished with exit code 0\nPress any key to exit");
+
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
+        scanner.close();
     }
 }
