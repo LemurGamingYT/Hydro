@@ -1,5 +1,5 @@
 # Hydro
- A compiled programming language similar to Python in syntax.
+ An interpreted programming language similar to Python or Carbon in syntax.
 
 # How to run
 1. Download/Install the jdk-19 (may work for other versions)
