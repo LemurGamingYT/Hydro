@@ -1,8 +1,8 @@
 import core.Error;
 import core.Visitor;
 import core.gen.HydroLexer;
-
 import core.gen.HydroParser;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -30,12 +30,10 @@ public class Main {
 
         var end_time = Instant.now();
         var elapsed = end_time.toEpochMilli() - start_time.toEpochMilli();
-        /**/System.out.println("Total time to execute -> " + elapsed + "ms");
+        System.out.println("\nTotal time to execute -> " + elapsed + "ms");
 
-        System.out.println("\nProcess finished with exit code 0\nPress any key to exit");
-
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        scanner.close();
+        System.out.println("\nProcess finished with exit code 0");
+        /* System.out.println("Press any key to exit");
+        var scanner = new Scanner(System.in); scanner.nextLine(); scanner.close();*/
     }
 }

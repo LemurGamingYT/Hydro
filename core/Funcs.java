@@ -8,53 +8,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Funcs<T> {
-    private Object getFieldValue(Object cls, String fieldName) {
-        try {
-            var field = cls.getClass().getField(fieldName);
-            return field.get(cls);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private Method getMethod(Object cls, String methodName, Class<?> paramTypes) {
-        try {
-            return cls.getClass().getMethod(methodName, paramTypes);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    private Object invokeMethod(Method method, Object cls, Object... args) {
-        try {
-            return method.invoke(cls, args);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
-    public T _Println(List<?> args, Env env, Visitor<Object> visitor) {
-        var value = args.get(0);
+    public T _createError(List<?> args, Env env, Visitor<Object> visitor) {
+        var errorType = (stringRepr) args.get(0);
+        var cause = (stringRepr) args.get(1);
 
-        System.out.println(getFieldValue(value, "value"));
-
-        return (T) new nullRepr();
-    }
-
-    @SuppressWarnings("unchecked")
-    public T _Print(List<?> args, Env env, Visitor<Object> visitor) {
-        var value = args.get(0);
-
-        System.out.print(getFieldValue(value, "value"));
-
-        return (T) new nullRepr();
+        return (T) new Error(errorType.value, cause.value);
     }
 
     @SuppressWarnings("unchecked")
@@ -62,8 +21,8 @@ public class Funcs<T> {
         var value = args.get(0);
         var value2 = args.get(1);
 
-        var ltVal2 = invokeMethod(Objects.requireNonNull(
-                getMethod(value, "lt", Object.class)), value, value2);
+        var ltVal2 = visitor.invokeMethod(Objects.requireNonNull(
+                visitor.getMethod(value, "lt", Object.class)), value, value2);
 
         assert ltVal2 != null;
         if (((boolRepr) ltVal2).value) {
@@ -78,8 +37,8 @@ public class Funcs<T> {
         var value = args.get(0);
         var value2 = args.get(1);
 
-        var ltVal2 = invokeMethod(Objects.requireNonNull(
-                getMethod(value, "gt", Object.class)), value, value2);
+        var ltVal2 = visitor.invokeMethod(Objects.requireNonNull(
+                visitor.getMethod(value, "gt", Object.class)), value, value2);
 
         assert ltVal2 != null;
         if (((boolRepr) ltVal2).value) {

@@ -19,10 +19,8 @@ public class intRepr {
         } else if (other instanceof floatRepr r) {
             return new floatRepr(Float.toString(this.value + r.value));
         } else {
-            new Error("Type", "Incompatible addition types, must be 'int' or 'float' types");
+            return new Error("Type", "Incompatible addition types, must be 'int' or 'float' types");
         }
-
-        return null;
     }
 
     public Object sub(Object other) {
@@ -31,10 +29,8 @@ public class intRepr {
         } else if (other instanceof floatRepr r) {
             return new floatRepr(Float.toString(this.value - r.value));
         } else {
-            new Error("Type", "Incompatible subtraction types, must be 'int' or 'float' types");
+            return new Error("Type", "Incompatible subtraction types, must be 'int' or 'float' types");
         }
-
-        return null;
     }
 
     public Object mul(Object other) {
@@ -43,10 +39,8 @@ public class intRepr {
         } else if (other instanceof floatRepr r) {
             return new floatRepr(Float.toString(this.value * r.value));
         } else {
-            new Error("Type", "Incompatible multiplication types, must be 'int' or 'float' types");
+            return new Error("Type", "Incompatible multiplication types, must be 'int' or 'float' types");
         }
-
-        return null;
     }
 
     public Object div(Object other) {
@@ -55,10 +49,8 @@ public class intRepr {
         } else if (other instanceof floatRepr r) {
             return new floatRepr(Float.toString(this.value / r.value));
         } else {
-            new Error("Type", "Incompatible division types, must be 'int' or 'float' types");
+            return new Error("Type", "Incompatible division types, must be 'int' or 'float' types");
         }
-
-        return null;
     }
 
     public Object mod(Object other) {
@@ -67,10 +59,8 @@ public class intRepr {
         } else if (other instanceof floatRepr r) {
             return new floatRepr(Float.toString(this.value % r.value));
         } else {
-            new Error("Type", "Incompatible modulo types, must be 'int' or 'float' types");
+            return new Error("Type", "Incompatible modulo types, must be 'int' or 'float' types");
         }
-
-        return null;
     }
 
     public Object pow(Object other) {
@@ -79,10 +69,8 @@ public class intRepr {
         } else if (other instanceof floatRepr r) {
             return new floatRepr(Float.toString((float) Math.pow(this.value, r.value)));
         } else {
-            new Error("Type", "Incompatible power types, must be 'int' or 'float' types");
+            return new Error("Type", "Incompatible power types, must be 'int' or 'float' types");
         }
-
-        return null;
     }
 
     public Object eq(Object other) {

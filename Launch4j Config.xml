@@ -13,7 +13,7 @@
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>C:\Users\alex\Downloads\hydro-power.ico</icon>
+  <icon>C:\Users\alex\Desktop\Programming\Java\Hydro\Icon.ico</icon>
   <singleInstance>
     <mutexName>Hydro</mutexName>
     <windowTitle>Hydro</windowTitle>
@@ -26,7 +26,7 @@
     <path>%JAVA_HOME%;%PATH%</path>
     <requiresJdk>false</requiresJdk>
     <requires64Bit>false</requires64Bit>
-    <minVersion>10.0.0</minVersion>
+    <minVersion></minVersion>
     <maxVersion></maxVersion>
   </jre>
   <messages>

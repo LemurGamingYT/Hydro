@@ -84,16 +84,20 @@ stmt
     | assignments SEMI?
     | call SEMI?
     | expr SEMI?
-    | classdef SEMI?
+    // | classdef SEMI?
     | import_stmt SEMI?
     ;
 
-import_stmt: IMPORT LBRACE STRING (COMMA STRING)* RBRACE (FROM STRING)?;
+import_stmt
+    : IMPORT LBRACE STRING (COMMA STRING)* RBRACE (FROM STRING)?
+    | IMPORT STRING (FROM STRING)?
+    ;
 
 assignments: varassignment | funcassignment;
 funcassignment: FUNC ID LPAREN params? RPAREN block; // | ID ASSIGN LPAREN (ID (COMMA ID))? RPAREN ARROWASSIGN stmt_block;
 varassignment: TYPE? ID ASSIGN expr;
 
+/*
 clsassign: NEW ID LPAREN args? RPAREN;
 classdef
     : CLASS ID (RARROW ID)? LBRACE define_blocks RBRACE
@@ -104,21 +108,21 @@ define_blocks
     : funcassignment*
     | varassignment*
     ;
+*/
 
-getattribs: (STRING | ID) DOT ID (LPAREN args? RPAREN)?;
-attrassign: ID DOT ID ASSIGN expr;
+getattribs: atom DOT ID LPAREN args? RPAREN (DOT ID LPAREN args? RPAREN)*;
+// attrassign: ID DOT ID ASSIGN expr;
 
 call: ID LPAREN args? RPAREN;
 
 conditional_stmt
     : if_stmt
     | while_stmt
-    | for_stmt
     ;
 
 if_stmt: IF conditional_block block (ELSE IF conditional_block block)* (ELSE block)?;
 while_stmt: WHILE conditional_block block;
-for_stmt: FOR ID SEMI conditional_block SEMI ID (INCREMENT | DECREMENT) block;
+// for_stmt: FOR ID SEMI conditional_block SEMI ID (INCREMENT | DECREMENT) block;
 
 conditional_block
     : LPAREN expr RPAREN
@@ -128,7 +132,7 @@ conditional_block
 args: expr (COMMA expr)*;
 params: ID (COMMA ID)*;
 
-type_conversion: LPAREN ID RPAREN ANY;
+// type_conversion: LPAREN ID RPAREN ANY;
 
 list : LLIST args? RLIST;
 
@@ -137,12 +141,11 @@ expr
     | expr op=ARITHMATICOPERATORS expr
     | expr op=COMPARATIVEOPERATORS expr
     | UNARYOPERATOR expr
-    | type_conversion
+    //| type_conversion
     | getattribs
-    | attrassign
-    | clsassign
+    //| attrassign
+    //| clsassign
     | call
-    | list
     | atom
     ;
 
@@ -153,4 +156,5 @@ atom
     | BOOL
     | NULL
     | STRING
+    | list
     ;

@@ -1,7 +1,10 @@
-String = "Hello World"
+import "timeFunc" from "Time"
+import "Println" from "IO"
 
-func Str(element) {
-    Println(element)
+func Timed() {
+    i = 0
+    i = i + 200
+    Println(i)
 }
 
-forEach(String, Str)
+Println(timeFunc(Timed))

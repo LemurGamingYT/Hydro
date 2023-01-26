@@ -2,16 +2,31 @@ package core;
 
 import core.gen.HydroBaseVisitor;
 import core.gen.HydroParser;
-import core.gen.HydroVisitor;
 import core.reprs.*;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
 public class Visitor<T> extends HydroBaseVisitor<T> {
-    private Method getMethod(Object cls, String methodName, Class<?> paramTypes) {
+    public Object getFieldValue(Object cls, String fieldName) {
         try {
+            var field = cls.getClass().getField(fieldName);
+            return field.get(cls);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public Method getMethod(Object cls, String methodName, Class<?>... paramTypes) {
+        try {
+            if (cls instanceof Class<?> c) {
+                return c.getMethod(methodName, paramTypes);
+            }
+
             return cls.getClass().getMethod(methodName, paramTypes);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -20,7 +35,7 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         return null;
     }
 
-    private Object invokeMethod(Method method, Object cls, Object... args) {
+    public Object invokeMethod(Method method, Object cls, Object... args) {
         try {
             return method.invoke(cls, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -30,7 +45,7 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         return null;
     }
 
-    private List<?> FindFunction(Method[] methods, String funcName) {
+    public List<?> FindFunction(Method[] methods, String funcName) {
         var returning = new ArrayList<>();
 
         for (Method method : methods) {
@@ -67,7 +82,6 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
     HashMap<String, Class<?>> reprs = new HashMap<>();
 
     HashMap<String, String> operators = new HashMap<>();
-
     Env env = new Env();
 
     public void Init() {
@@ -112,7 +126,7 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         var params = (List<Object>) visitParams(ctx.params());
         var block = ctx.block();
 
-        env.AddFunc(new funcRepr(name, params, block, null));
+        env.AddFunc(new funcRepr<>(name, params, block, null));
 
         return null;
     }
@@ -122,7 +136,7 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         List<Object> args = new ArrayList<>();
         if (ctx != null) {
             for (int i = 0; i < ctx.expr().size(); i++) {
-                T value = varCheck(ctx.expr(i));
+                var value = varCheck(ctx.expr(i));
 
                 args.add(value);
             }
@@ -155,6 +169,7 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         return null;
     }
 
+    /*
     public T visitFor_stmt(HydroParser.For_stmtContext ctx) {
         var name = ctx.ID(0).toString();
         var counter = new varRepr(name, new intRepr("0"), name.equals(name.toUpperCase()));
@@ -178,7 +193,7 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         env.RemoveVariable(counter.name);
 
         return null;
-    }
+    }*/
 
     public T visitConditional_block(HydroParser.Conditional_blockContext ctx) {
         return visitExpr(ctx.expr());
@@ -206,6 +221,46 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
         return null;
     }
 
+    public T visitImport_stmt(HydroParser.Import_stmtContext ctx) {
+        var module = ctx.STRING(ctx.STRING().size() - 1).toString();
+        module = module.substring(1, module.length() - 1);
+
+        var repr = new moduleRepr(module);
+        var importList = new ArrayList<>();
+        for (int i = 0; i < ctx.STRING().toArray().length; i++) {
+            if (ctx.FROM() != null && i == ctx.STRING().toArray().length - 1) {
+                break;
+            }
+
+            var value = ctx.STRING(i).toString();
+            importList.add(value.substring(1, value.length() - 1));
+        }
+
+        if (ctx.FROM() != null) {
+            try {
+                for (Field field : repr.attributes) {
+                    if (importList.contains(field.getName())) {
+                        env.AddVariable(new varRepr(field.getName(), field.get(repr.moduleJavaClass), false));
+                    }
+                }
+
+                for (Method method : repr.methods) {
+                    if (importList.contains(method.getName())) {
+                        var r = new funcRepr<>(method.getName(), new ArrayList<>(), null, method);
+                        r.javaCallableCls = repr.moduleJavaClass;
+                        env.AddFunc(r);
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            env.AddModule(repr);
+        }
+
+        return null;
+    }
+
     @SuppressWarnings("unchecked")
     public T visitCall(HydroParser.CallContext ctx) {
         var funcName = ctx.ID().toString();
@@ -222,7 +277,9 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
                 e.printStackTrace();
             }
         } else if (env.functions.containsKey(funcName)) {
-            visitBlock(env.GetFunc(funcName).block);
+            var func = env.GetFunc(funcName);
+            return (T) func.Call(args, this, env);
+        //} else if (env.modules)
         } else {
             new Error("Unbound", "Unknown function '" + funcName + "'");
         }
@@ -231,11 +288,32 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
     }
 
     @SuppressWarnings("unchecked")
+    public T visitGetattribs(HydroParser.GetattribsContext ctx) {
+        var obj = visitAtom(ctx.atom());
+        if (obj instanceof idRepr r) {
+            System.out.println(env.modules.toString());
+            if (env.variables.containsKey(r.value)) {
+                obj = (T) env.GetVariable(r.value).value;
+            } else if (env.modules.containsKey(r.value)) {
+                obj = (T) env.GetModule(r.value);
+            } else if (env.functions.containsKey(r.value)) {
+                obj = (T) env.GetFunc(r.value);
+            }
+        }
+
+        var args = visitArgs((HydroParser.ArgsContext) ctx.args());
+
+        return (T) invokeMethod(Objects.requireNonNull(getMethod(obj, ctx.ID().toString(), List.class)), obj, args);
+    }
+
+    @SuppressWarnings("unchecked")
     public T visitExpr(HydroParser.ExprContext ctx) {
         if (ctx.atom() != null) {
             return visitAtom(ctx.atom());
         } else if (ctx.call() != null) {
             return visitCall(ctx.call());
+        } else if (ctx.getattribs() != null) {
+            return visitGetattribs(ctx.getattribs());
         } else if (ctx.expr().size() == 2) {
             var val1 = varCheck(ctx.expr(0));
             var val2 = varCheck(ctx.expr(1));
@@ -250,6 +328,10 @@ public class Visitor<T> extends HydroBaseVisitor<T> {
 
     @SuppressWarnings("unchecked")
     public T visitAtom(HydroParser.AtomContext ctx) {
+        if (ctx.list() != null) {
+            return null;
+        }
+
         var atoms = new HashMap<String, Object>();
         atoms.put("id", ctx.ID());
         atoms.put("string", ctx.STRING());

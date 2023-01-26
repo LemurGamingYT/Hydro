@@ -52,35 +52,11 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarassignment(HydroParser.VarassignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link HydroParser#clsassign}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitClsassign(HydroParser.ClsassignContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link HydroParser#classdef}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitClassdef(HydroParser.ClassdefContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link HydroParser#define_blocks}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefine_blocks(HydroParser.Define_blocksContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link HydroParser#getattribs}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGetattribs(HydroParser.GetattribsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link HydroParser#attrassign}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAttrassign(HydroParser.AttrassignContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link HydroParser#call}.
 	 * @param ctx the parse tree
@@ -106,12 +82,6 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhile_stmt(HydroParser.While_stmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link HydroParser#for_stmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFor_stmt(HydroParser.For_stmtContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link HydroParser#conditional_block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -129,12 +99,6 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParams(HydroParser.ParamsContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link HydroParser#type_conversion}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitType_conversion(HydroParser.Type_conversionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link HydroParser#list}.
 	 * @param ctx the parse tree
