@@ -1,10 +1,14 @@
-import "timeFunc" from "Time"
-import "Println" from "IO"
+// Test.hyd - the testing file for Hydro
 
-func Timed() {
-    i = 0
-    i = i + 200
-    Println(i)
+import "*" from "IO"
+
+Println("Hello world")
+
+/*class Test {
+    func testThis() {
+        Println("What?")
+    }
 }
 
-Println(timeFunc(Timed))
+testing = new Test()
+testing.testThis()*/

@@ -11,4 +11,8 @@ public class varRepr {
         this.value = value;
         this.constant = constant;
     }
+
+    public String repr(Object context) {
+        return "<VariableObject name=" + name + ">";
+    }
 }

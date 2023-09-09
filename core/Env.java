@@ -6,9 +6,12 @@ import java.util.HashMap;
 
 public class Env {
     public HashMap<String, varRepr> variables = new HashMap<>();
+
     public HashMap<String, funcRepr> functions = new HashMap<>();
 
     public HashMap<String, moduleRepr> modules = new HashMap<>();
+
+    public HashMap<String, classRepr> classes = new HashMap<>();
 
     public void AddVariable(varRepr repr) {
         variables.put(repr.name, repr);
@@ -36,5 +39,13 @@ public class Env {
 
     public moduleRepr GetModule(String name) {
         return modules.get(name);
+    }
+
+    public void AddCls(classRepr repr) {
+        classes.put(repr.name, repr);
+    }
+
+    public classRepr GetCls(String name) {
+        return classes.get(name);
     }
 }

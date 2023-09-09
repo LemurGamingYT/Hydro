@@ -32,12 +32,12 @@ IO.Println(i + 1)
 IO.Println(800 * 10)
 
 // Use the library 'operators'
-operators.op("add", 50, 10) <-- or 50 + 10
-operators.op("sub", 50, 40) <-- or 50 - 40
-operators.op("eq", 50, 50) <-- or 50 == 50
+operators.op("+", 50, 10)
+operators.op("-", 50, 40)
+operators.op("==", 50, 50)
 
-RemoveModule(operators) <-- Delete this from the environment
-RemoveModule(IO)
+Remove(operators) <-- Delete this from the environment
+Remove(IO)
 
 // Use direct Println
 import "Println" from "IO"
@@ -56,7 +56,7 @@ string content = "ThIs WiLl bE loWeRed SooN"
 Println(content.Lower())
 
 // Get the first and last character in one string
-string content1_2 = content.start + content.end
+string content1_2 = content.Start() + content.End()
 
 // Create a class
 class Person {
@@ -74,8 +74,6 @@ class Person {
 
 person = new Person()
 person.say_hi()
-
-RemoveClass(Person)
 
 // The language also supports structs
 

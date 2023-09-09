@@ -8,4 +8,8 @@ public class nullRepr {
     public nullRepr() {
         this.value = "null";
     }
+
+    public String repr(Object context) {
+        return value;
+    }
 }

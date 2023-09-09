@@ -12,6 +12,14 @@ public class stringRepr {
         this.value = value.substring(1, value.length() - 1);
     }
 
+    public String repr(Object context) {
+        if (context instanceof arrayRepr) {
+            return "'" + value + "'";
+        }
+
+        return value;
+    }
+
     public stringRepr Lower(List<?> args) {
         return new stringRepr("\"" + this.value.toLowerCase() + "\"");
     }

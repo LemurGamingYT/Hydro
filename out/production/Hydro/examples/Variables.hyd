@@ -1,0 +1,7 @@
+// Variables.hyd
+
+// Define a variable
+test = "Hello World"
+
+// Variables can take an explicit type
+int index = 1

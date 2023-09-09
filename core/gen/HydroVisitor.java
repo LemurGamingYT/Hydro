@@ -34,12 +34,6 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitImport_stmt(HydroParser.Import_stmtContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link HydroParser#assignments}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignments(HydroParser.AssignmentsContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link HydroParser#funcassignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -52,6 +46,24 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarassignment(HydroParser.VarassignmentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link HydroParser#clsassign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClsassign(HydroParser.ClsassignContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link HydroParser#classdef}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassdef(HydroParser.ClassdefContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link HydroParser#define_blocks}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefine_blocks(HydroParser.Define_blocksContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link HydroParser#getattribs}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -63,12 +75,6 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCall(HydroParser.CallContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link HydroParser#conditional_stmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConditional_stmt(HydroParser.Conditional_stmtContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link HydroParser#if_stmt}.
 	 * @param ctx the parse tree
@@ -100,11 +106,35 @@ public interface HydroVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParams(HydroParser.ParamsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link HydroParser#type_conversion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType_conversion(HydroParser.Type_conversionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link HydroParser#list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitList(HydroParser.ListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link HydroParser#dict_definitions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDict_definitions(HydroParser.Dict_definitionsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link HydroParser#dict}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDict(HydroParser.DictContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link HydroParser#funcassignment_expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncassignment_expr(HydroParser.Funcassignment_exprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link HydroParser#expr}.
 	 * @param ctx the parse tree

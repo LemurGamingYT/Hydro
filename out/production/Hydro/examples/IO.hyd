@@ -1,0 +1,9 @@
+// IO.hyd
+
+import "*" from "IO"
+
+// Output something using 'Println' from IO
+Println("Hello World")
+
+// Get the user to input something using 'Input' from IO
+Input("How?\n> ")

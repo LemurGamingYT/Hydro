@@ -1,0 +1,10 @@
+// Creation.hyd
+
+import "Println" from "IO"
+
+// Create a new function
+func Main() {
+    Println("Welcome to my program!")
+}
+
+Main()

@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -24,7 +24,7 @@ public class Main {
         parser.addErrorListener(new Error.ErrorListener());
         var tree = parser.program();
 
-        var visitor = new Visitor<>();
+        var visitor = new Visitor<>(Arrays.stream(args).toList().subList(0, 0));
         visitor.Init();
         visitor.visit(tree);
 

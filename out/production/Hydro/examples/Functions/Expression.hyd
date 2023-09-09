@@ -1,0 +1,15 @@
+// Expression.hyd
+
+import "Println" from "IO"
+
+// You can assign a function expression anonymously - even assign them to a variable
+print(content) => {
+    Println(content)
+}
+
+// And call them
+print("Hello World")
+
+// They are normally used to create functions in functions
+val = [6, 10, "Hello", "World"]
+forEach(val, looped(element) => { Println(element) })

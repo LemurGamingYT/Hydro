@@ -2,8 +2,6 @@ package core.reprs;
 
 import core.Error;
 
-import java.util.Objects;
-
 public class intRepr {
     public long value;
 
@@ -13,11 +11,15 @@ public class intRepr {
         this.value = Long.parseLong(value);
     }
 
+    public String repr(Object context) {
+        return Long.toString(value);
+    }
+
     public Object add(Object other) {
         if (other instanceof intRepr r) {
             return new intRepr(Long.toString(this.value + r.value));
         } else if (other instanceof floatRepr r) {
-            return new floatRepr(Float.toString(this.value + r.value));
+            return new floatRepr(Double.toString(this.value + r.value));
         } else {
             return new Error("Type", "Incompatible addition types, must be 'int' or 'float' types");
         }
@@ -27,7 +29,7 @@ public class intRepr {
         if (other instanceof intRepr r) {
             return new intRepr(Long.toString(this.value - r.value));
         } else if (other instanceof floatRepr r) {
-            return new floatRepr(Float.toString(this.value - r.value));
+            return new floatRepr(Double.toString(this.value - r.value));
         } else {
             return new Error("Type", "Incompatible subtraction types, must be 'int' or 'float' types");
         }
@@ -37,7 +39,7 @@ public class intRepr {
         if (other instanceof intRepr r) {
             return new intRepr(Long.toString(this.value * r.value));
         } else if (other instanceof floatRepr r) {
-            return new floatRepr(Float.toString(this.value * r.value));
+            return new floatRepr(Double.toString(this.value * r.value));
         } else {
             return new Error("Type", "Incompatible multiplication types, must be 'int' or 'float' types");
         }
@@ -47,7 +49,7 @@ public class intRepr {
         if (other instanceof intRepr r) {
             return new intRepr(Long.toString(this.value / r.value));
         } else if (other instanceof floatRepr r) {
-            return new floatRepr(Float.toString(this.value / r.value));
+            return new floatRepr(Double.toString(this.value / r.value));
         } else {
             return new Error("Type", "Incompatible division types, must be 'int' or 'float' types");
         }
@@ -57,7 +59,7 @@ public class intRepr {
         if (other instanceof intRepr r) {
             return new intRepr(Long.toString(this.value % r.value));
         } else if (other instanceof floatRepr r) {
-            return new floatRepr(Float.toString(this.value % r.value));
+            return new floatRepr(Double.toString(this.value % r.value));
         } else {
             return new Error("Type", "Incompatible modulo types, must be 'int' or 'float' types");
         }
@@ -67,7 +69,7 @@ public class intRepr {
         if (other instanceof intRepr r) {
             return new intRepr(Long.toString((int) Math.pow(this.value, r.value)));
         } else if (other instanceof floatRepr r) {
-            return new floatRepr(Float.toString((float) Math.pow(this.value, r.value)));
+            return new floatRepr(Double.toString((float) Math.pow(this.value, r.value)));
         } else {
             return new Error("Type", "Incompatible power types, must be 'int' or 'float' types");
         }

@@ -1,0 +1,11 @@
+// Libraries.hyd
+
+import "Println" from "IO"
+import "op" from "Operations"
+import "*" from "Time"
+
+func Main() {
+    Println("Welcome! Hello!")
+}
+
+timeFunc(Main)
